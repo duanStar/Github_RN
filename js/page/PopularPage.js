@@ -6,12 +6,14 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useDispatch, useSelector} from 'react-redux';
 import {onLoadMorePopular, onRefreshPopularData} from '../action/popular';
 import PopularItem from '../common/PopularItem';
 import Toast from 'react-native-root-toast';
+import NavigationBar from '../common/NavigationBar';
 
 const Tab = createMaterialTopTabNavigator();
 const TAB_NAMES = [
@@ -52,7 +54,7 @@ function TopTabNavigator() {
         tabBarItemStyle: styles.tabBarItemStyle,
         tabBarScrollEnabled: true,
         tabBarStyle: {
-          backgroundColor: '#a67',
+          backgroundColor: '#007AFF',
         },
         tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
@@ -119,11 +121,11 @@ function PopularTab({tabLabel, navigation}) {
         refreshControl={
           <RefreshControl
             title={'loading'}
-            titleColor={'red'}
-            colors={['red']}
+            titleColor={'#007AFF'}
+            colors={['#007AFF']}
             refreshing={dataObject?.isLoading || false}
             onRefresh={() => loadData()}
-            tintColor={'red'}
+            tintColor={'#007AFF'}
           />
         }
         ListFooterComponent={() => genFooter()}
@@ -146,9 +148,21 @@ function PopularTab({tabLabel, navigation}) {
 
 export default function PopularPage() {
   return (
-    <View style={styles.container}>
-      <TopTabNavigator />
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <NavigationBar
+          title={'最热'}
+          statusBar={{
+            backgroundColor: '#007AFF',
+            barStyle: 'light-content',
+          }}
+          style={{
+            backgroundColor: '#007AFF',
+          }}
+        />
+        <TopTabNavigator />
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -163,7 +177,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   tabBarItemStyle: {
-    minWidth: 50,
+    // minWidth: 50,
   },
   tabBarIndicatorStyle: {
     height: 2,
@@ -171,14 +185,13 @@ const styles = StyleSheet.create({
   },
   tabBarLabelStyle: {
     fontSize: 13,
-    marginTop: 6,
-    marginBottom: 6,
+    margin: 0,
   },
   indicatorContainer: {
     alignItems: 'center',
   },
   indicator: {
-    color: 'red',
+    color: '#fff',
     margin: 10,
   },
 });

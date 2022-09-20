@@ -1,8 +1,11 @@
 import {onThemeChange} from './theme';
 import {onRefreshPopularData, onLoadMorePopular} from './popular';
+import {onLoadMoreTrending, onRefreshTrending} from './trending';
 
-export default {
+export {
   onThemeChange,
-  onLoadPopularData: onRefreshPopularData,
+  onRefreshPopularData,
   onLoadMorePopular,
+  onLoadMoreTrending,
+  onRefreshTrending,
 };
