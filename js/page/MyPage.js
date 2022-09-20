@@ -1,10 +1,19 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
+import {onThemeChange} from '../action/theme';
+import {useDispatch} from 'react-redux';
 
-export default function MyPage() {
+export default function MyPage({navigation}) {
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>MyPage</Text>
+      <Button
+        title="修改主题"
+        onPress={() => {
+          dispatch(onThemeChange('red'));
+        }}
+      />
     </View>
   );
 }

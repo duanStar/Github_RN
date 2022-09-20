@@ -6,4 +6,7 @@ export default class NavigationUtil {
       routes: [{name: 'Main'}],
     });
   }
+  static toPage(navigation, key) {
+    navigation.navigate(key);
+  }
 }
