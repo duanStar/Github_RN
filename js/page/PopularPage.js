@@ -102,7 +102,14 @@ function PopularTab({tabLabel, navigation}) {
   };
   const renderItem = data => {
     const item = data.item;
-    return <PopularItem item={item} onSelect={() => {}} />;
+    return (
+      <PopularItem
+        item={item}
+        onSelect={() => {
+          navigation.navigate('Detail', {projectModel: item});
+        }}
+      />
+    );
   };
   const genFooter = () => {
     return dataObject?.hideMoreLoading ? null : (

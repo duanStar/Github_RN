@@ -25,7 +25,13 @@ export default function AppNavigator() {
             header: () => null,
           }}
         />
-        <Stack.Screen name="Detail" component={DetailPage} />
+        <Stack.Screen
+          name="Detail"
+          component={DetailPage}
+          options={{
+            header: () => null,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

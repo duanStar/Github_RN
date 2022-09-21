@@ -62,7 +62,7 @@ function TopTabNavigator({since}) {
   );
 }
 
-function TrendingTab({tabLabel, since}) {
+function TrendingTab({tabLabel, since, navigation}) {
   const canLoad = useRef(false);
   const dataObject = useSelector(state => state.trending)[tabLabel];
   const dispatch = useDispatch();
@@ -100,7 +100,16 @@ function TrendingTab({tabLabel, since}) {
   };
   const renderItem = data => {
     const item = data.item;
-    return <TrendingItem item={item} onSelect={() => {}} />;
+    return (
+      <TrendingItem
+        item={item}
+        onSelect={() => {
+          navigation.navigate('Detail', {
+            projectModel: item,
+          });
+        }}
+      />
+    );
   };
   const genFooter = () => {
     return dataObject?.hideMoreLoading ? null : (
