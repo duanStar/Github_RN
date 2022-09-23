@@ -14,6 +14,9 @@ import {onLoadMorePopular, onRefreshPopularData} from '../action/popular';
 import PopularItem from '../common/PopularItem';
 import Toast from 'react-native-root-toast';
 import NavigationBar from '../common/NavigationBar';
+import FavoriteDao from '../expand/dao/favoriteDao';
+import {FLAG_STORAGE} from '../expand/dao/DataStore';
+import FavoriteUtil from '../util/FavoriteUtil';
 
 const Tab = createMaterialTopTabNavigator();
 const TAB_NAMES = [
@@ -76,19 +79,24 @@ function PopularTab({tabLabel, navigation}) {
   const canLoad = useRef(false);
   const dataObject = useSelector(state => state.popular)[tabLabel];
   const dispatch = useDispatch();
+  const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
   useEffect(() => {
-    loadData(false);
+    const _unsubscribe = navigation.addListener('focus', () => {
+      loadData(false);
+    });
+    return () => _unsubscribe();
   }, []);
   const loadData = loadMore => {
     const url = genFetchUrl(tabLabel);
     !loadMore
-      ? dispatch(onRefreshPopularData(tabLabel, url, 10))
+      ? dispatch(onRefreshPopularData(tabLabel, url, 10, favoriteDao))
       : dispatch(
           onLoadMorePopular(
             tabLabel,
             dataObject?.pageIndex || 1,
             10,
             dataObject?.items || [],
+            favoriteDao,
             err => {
               Toast.show('没有更多了', {
                 duration: Toast.durations.SHORT,
@@ -101,12 +109,24 @@ function PopularTab({tabLabel, navigation}) {
         );
   };
   const renderItem = data => {
-    const item = data.item;
+    const projectModel = data.item;
     return (
       <PopularItem
-        item={item}
+        projectModel={projectModel}
         onSelect={() => {
-          navigation.navigate('Detail', {projectModel: item});
+          navigation.navigate('Detail', {
+            projectModel: projectModel,
+            flag: FLAG_STORAGE.flag_popular,
+          });
+        }}
+        onFavorite={(item, isFavorite) => {
+          projectModel.isFavorite = isFavorite;
+          FavoriteUtil.onFavorite(
+            favoriteDao,
+            item,
+            isFavorite,
+            FLAG_STORAGE.flag_popular,
+          );
         }}
       />
     );
@@ -124,7 +144,7 @@ function PopularTab({tabLabel, navigation}) {
       <FlatList
         data={dataObject?.projectModes || []}
         renderItem={data => renderItem(data)}
-        keyExtractor={item => `${item.id}`}
+        keyExtractor={item => `${item.item.id}`}
         refreshControl={
           <RefreshControl
             title={'loading'}

@@ -4,46 +4,52 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  useWindowDimensions,
+  Dimensions,
 } from 'react-native';
-import FavoriteButton from './FavoriteButton';
 import RenderHtml from 'react-native-render-html';
+import BaseItem from './BaseItem';
 
-export default function TrendingItem({item, onSelect}) {
-  const width = useWindowDimensions().width;
-  if (!item) {
-    return null;
-  }
-  return (
-    <TouchableOpacity onPress={e => onSelect && onSelect(e)}>
-      <View style={styles.cellContainer}>
-        <Text style={styles.title}>{item.repo}</Text>
-        <RenderHtml
-          contentWidth={width}
-          source={{
-            html: item.desc,
-          }}
-        />
-        <View style={styles.row}>
-          <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-            <Text style={{marginRight: 3}}>Built by: </Text>
-            {item.avatars.slice(0, 5).map(url => (
-              <Image
-                style={{height: 22, width: 22, marginRight: 3}}
-                source={{uri: url}}
-                key={url}
-              />
-            ))}
+export default class TrendingItem extends BaseItem {
+  render() {
+    const {projectModel, onSelect} = this.props;
+    const {item} = projectModel;
+    const width = Dimensions.get('window').width;
+    if (!item) {
+      return null;
+    }
+    return (
+      <TouchableOpacity onPress={e => onSelect && onSelect(e)}>
+        <View style={styles.cellContainer}>
+          <Text style={styles.title}>{item.repo}</Text>
+          <RenderHtml
+            contentWidth={width}
+            source={{
+              html: item.desc,
+            }}
+          />
+          <View style={styles.row}>
+            <View
+              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+              <Text style={{marginRight: 3}}>Built by: </Text>
+              {item.avatars.slice(0, 5).map(url => (
+                <Image
+                  style={{height: 22, width: 22, marginRight: 3}}
+                  source={{uri: url}}
+                  key={url}
+                />
+              ))}
+            </View>
+            <View
+              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+              <Text>Stars: </Text>
+              <Text>{item.stars}</Text>
+            </View>
+            {this._favoriteIcon()}
           </View>
-          <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-            <Text>Stars: </Text>
-            <Text>{item.stars}</Text>
-          </View>
-          <FavoriteButton onFavorite={() => {}} item={item} />
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

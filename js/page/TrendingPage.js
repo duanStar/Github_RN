@@ -17,6 +17,9 @@ import NavigationBar from '../common/NavigationBar';
 import TrendingItem from '../common/TrendingItem';
 import TrendingDialog from '../common/TrendingDialog';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FavoriteDao from '../expand/dao/favoriteDao';
+import {FLAG_STORAGE} from '../expand/dao/DataStore';
+import FavoriteUtil from '../util/FavoriteUtil';
 
 const Tab = createMaterialTopTabNavigator();
 const TAB_NAMES = ['All', 'Java', 'C', 'C++', 'JavaScript', 'Python'];
@@ -66,6 +69,13 @@ function TrendingTab({tabLabel, since, navigation}) {
   const canLoad = useRef(false);
   const dataObject = useSelector(state => state.trending)[tabLabel];
   const dispatch = useDispatch();
+  const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
+  useEffect(() => {
+    const _unsubscribe = navigation.addListener('focus', () => {
+      loadData(false);
+    });
+    return () => _unsubscribe();
+  }, []);
   useEffect(() => {
     loadData(false);
   }, [since]);
@@ -80,13 +90,16 @@ function TrendingTab({tabLabel, since, navigation}) {
             lang: tabLabel,
           };
     !loadMore
-      ? dispatch(onRefreshTrending(tabLabel, TRENDING_URL, 10, params))
+      ? dispatch(
+          onRefreshTrending(tabLabel, TRENDING_URL, 10, params, favoriteDao),
+        )
       : dispatch(
           onLoadMoreTrending(
             tabLabel,
             dataObject?.pageIndex || 1,
             10,
             dataObject?.items || [],
+            favoriteDao,
             err => {
               Toast.show('没有更多了', {
                 duration: Toast.durations.SHORT,
@@ -99,14 +112,24 @@ function TrendingTab({tabLabel, since, navigation}) {
         );
   };
   const renderItem = data => {
-    const item = data.item;
+    const projectModel = data.item;
     return (
       <TrendingItem
-        item={item}
+        projectModel={projectModel}
         onSelect={() => {
           navigation.navigate('Detail', {
-            projectModel: item,
+            projectModel: projectModel,
+            flag: FLAG_STORAGE.flag_trending,
           });
+        }}
+        onFavorite={(item, isFavorite) => {
+          projectModel.isFavorite = isFavorite;
+          FavoriteUtil.onFavorite(
+            favoriteDao,
+            item,
+            isFavorite,
+            FLAG_STORAGE.flag_trending,
+          );
         }}
       />
     );
@@ -124,14 +147,14 @@ function TrendingTab({tabLabel, since, navigation}) {
       <FlatList
         data={dataObject?.projectModes || []}
         renderItem={data => renderItem(data)}
-        keyExtractor={item => `${item.repo}`}
+        keyExtractor={item => `${item.item.repo}`}
         refreshControl={
           <RefreshControl
             title={'loading'}
             titleColor={'#007AFF'}
             colors={['#007AFF']}
             refreshing={dataObject?.isLoading || false}
-            onRefresh={() => loadData()}
+            onRefresh={() => loadData(false)}
             tintColor={'#007AFF'}
           />
         }

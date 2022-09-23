@@ -1,8 +1,8 @@
 import Types from '../types';
 import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore';
-import {handleData} from '../ActionUtil';
+import {_projectModels, handleData} from '../ActionUtil';
 
-export function onRefreshPopularData(storeName, url, pageSize) {
+export function onRefreshPopularData(storeName, url, pageSize, favoriteDao) {
   return dispatch => {
     dispatch({
       type: Types.POPULAR_REFRESH,
@@ -18,6 +18,7 @@ export function onRefreshPopularData(storeName, url, pageSize) {
           storeName,
           data,
           pageSize,
+          favoriteDao,
         );
       })
       .catch(err => {
@@ -36,6 +37,7 @@ export function onLoadMorePopular(
   pageIndex,
   pageSize,
   dataArray = [],
+  favoriteDao,
   callback,
 ) {
   return dispatch => {
@@ -44,23 +46,27 @@ export function onLoadMorePopular(
         if (typeof callback === 'function') {
           callback('no more data');
         }
-        dispatch({
-          type: Types.LOAD_POPULAR_MORE_FAIL,
-          error: 'no more',
-          storeName,
-          pageIndex,
-          projectModes: dataArray,
+        _projectModels(dataArray, favoriteDao, projectModes => {
+          dispatch({
+            type: Types.LOAD_POPULAR_MORE_FAIL,
+            error: 'no more',
+            storeName,
+            pageIndex,
+            projectModes,
+          });
         });
       } else {
         const max =
           pageSize * pageIndex >= dataArray.length
             ? dataArray.length
             : pageSize * pageIndex;
-        dispatch({
-          type: Types.LOAD_POPULAR_MORE_SUCCESS,
-          storeName,
-          pageIndex: ++pageIndex,
-          projectModes: dataArray.slice(0, max),
+        _projectModels(dataArray.slice(0, max), favoriteDao, projectModes => {
+          dispatch({
+            type: Types.LOAD_POPULAR_MORE_SUCCESS,
+            storeName,
+            pageIndex: ++pageIndex,
+            projectModes,
+          });
         });
       }
     }, 500);

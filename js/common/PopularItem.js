@@ -4,43 +4,49 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  useWindowDimensions,
+  Dimensions,
 } from 'react-native';
-import FavoriteButton from './FavoriteButton';
 import RenderHtml from 'react-native-render-html';
+import BaseItem from './BaseItem';
 
-export default function PopularItem({item, onSelect}) {
-  const width = useWindowDimensions().width;
-  if (!item || !item.owner) {
-    return null;
-  }
-  return (
-    <TouchableOpacity onPress={e => onSelect && onSelect(e)}>
-      <View style={styles.cellContainer}>
-        <Text style={styles.title}>{item.full_name}</Text>
-        <RenderHtml
-          contentWidth={width}
-          source={{
-            html: item.description,
-          }}
-        />
-        <View style={styles.row}>
-          <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-            <Text style={{marginRight: 3}}>Author: </Text>
-            <Image
-              style={{height: 22, width: 22}}
-              source={{uri: item.owner.avatar_url}}
-            />
+export default class PopularItem extends BaseItem {
+  render() {
+    const {onSelect, projectModel} = this.props;
+    const {item} = projectModel;
+    if (!item || !item.owner) {
+      return null;
+    }
+    const width = Dimensions.get('window').width;
+    return (
+      <TouchableOpacity onPress={e => onSelect && onSelect(e)}>
+        <View style={styles.cellContainer}>
+          <Text style={styles.title}>{item.full_name}</Text>
+          <RenderHtml
+            contentWidth={width}
+            source={{
+              html: item.description,
+            }}
+          />
+          <View style={styles.row}>
+            <View
+              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+              <Text style={{marginRight: 3}}>Author: </Text>
+              <Image
+                style={{height: 22, width: 22}}
+                source={{uri: item.owner.avatar_url}}
+              />
+            </View>
+            <View
+              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+              <Text>Stars: </Text>
+              <Text>{item.stargazers_count}</Text>
+            </View>
+            {this._favoriteIcon()}
           </View>
-          <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-            <Text>Stars: </Text>
-            <Text>{item.stargazers_count}</Text>
-          </View>
-          <FavoriteButton onFavorite={() => {}} item={item} />
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

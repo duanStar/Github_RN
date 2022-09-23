@@ -1,8 +1,14 @@
 import Types from '../types';
 import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore';
-import {handleData} from '../ActionUtil';
+import {_projectModels, handleData} from '../ActionUtil';
 
-export function onRefreshTrending(storeName, url, pageSize = 10, params = {}) {
+export function onRefreshTrending(
+  storeName,
+  url,
+  pageSize = 10,
+  params = {},
+  favoriteDao,
+) {
   return dispatch => {
     dispatch({
       type: Types.TRENDING_REFRESH,
@@ -18,6 +24,7 @@ export function onRefreshTrending(storeName, url, pageSize = 10, params = {}) {
           storeName,
           data,
           pageSize,
+          favoriteDao,
         );
       })
       .catch(err => {
@@ -36,6 +43,7 @@ export function onLoadMoreTrending(
   pageIndex,
   pageSize = 10,
   dataArray = [],
+  favoriteDao,
   callback,
 ) {
   return dispatch => {
@@ -44,23 +52,27 @@ export function onLoadMoreTrending(
         if (typeof callback === 'function') {
           callback('no more data');
         }
-        dispatch({
-          type: Types.LOAD_TRENDING_MORE_FAIL,
-          error: 'no more',
-          storeName,
-          pageIndex,
-          projectModes: dataArray,
+        _projectModels(dataArray, favoriteDao, projectModes => {
+          dispatch({
+            type: Types.LOAD_TRENDING_MORE_FAIL,
+            error: 'no more',
+            storeName,
+            pageIndex,
+            projectModes,
+          });
         });
       } else {
         const max =
           pageSize * pageIndex >= dataArray.length
             ? dataArray.length
             : pageSize * pageIndex;
-        dispatch({
-          type: Types.LOAD_TRENDING_MORE_SUCCESS,
-          storeName,
-          pageIndex: ++pageIndex,
-          projectModes: dataArray.slice(0, max),
+        _projectModels(dataArray.slice(0, max), favoriteDao, projectModes => {
+          dispatch({
+            type: Types.LOAD_TRENDING_MORE_SUCCESS,
+            storeName,
+            pageIndex: ++pageIndex,
+            projectModes,
+          });
         });
       }
     }, 500);

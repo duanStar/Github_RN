@@ -57,7 +57,7 @@ const TABS = {
 
 const Tab = createBottomTabNavigator();
 
-function TabNavigator(props, ref) {
+function TabNavigator(props) {
   const theme = useSelector(state => state.theme.theme);
   const {PopularPage, MyPage, FavoritePage, TrendingPage} = TABS;
   const tabs = [PopularPage, TrendingPage, FavoritePage, MyPage];

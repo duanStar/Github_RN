@@ -5,13 +5,19 @@ import ViewUtil from '../util/ViewUtil';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {WebView} from 'react-native-webview';
 import BackPressComponent from '../common/BackPressComponent';
+import FavoriteUtil from '../util/FavoriteUtil';
+import FavoriteDao from '../expand/dao/favoriteDao';
 
 const TRENDING_URL = 'https://github.com/';
 const THEME_COLOR = '#007AFF';
 
 export default function DetailPage({navigation, route}) {
+  const {projectModel, flag} = route.params;
+  const {item} = projectModel;
+  const favoriteDao = new FavoriteDao(flag);
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
+  const [isFavorite, setIsFavorite] = useState(projectModel.isFavorite);
   const urls = useRef([]);
   const [canGoBack, setCanGoBack] = useState(false);
   const webviewRef = useRef();
@@ -36,18 +42,11 @@ export default function DetailPage({navigation, route}) {
     };
   }, [canGoBack]);
   useEffect(() => {
-    const {projectModel} = route.params;
-    setUrl(
-      projectModel.html_url ||
-        projectModel.repo_link ||
-        TRENDING_URL + projectModel.fullName,
-    );
+    setUrl(item.html_url || item.repo_link || TRENDING_URL + item.fullName);
     urls.current.push(
-      projectModel.html_url ||
-        projectModel.repo_link ||
-        TRENDING_URL + projectModel.fullName,
+      item.html_url || item.repo_link || TRENDING_URL + item.fullName,
     );
-    setTitle(projectModel.full_name || projectModel.repo);
+    setTitle(item.full_name || item.repo);
   }, [route.params]);
   return (
     <SafeAreaView style={styles.container}>
@@ -61,9 +60,13 @@ export default function DetailPage({navigation, route}) {
         })}
         rightButton={
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                FavoriteUtil.onFavorite(favoriteDao, item, !isFavorite, flag);
+                setIsFavorite(!isFavorite);
+              }}>
               <FontAwesome
-                name={'star-o'}
+                name={isFavorite ? 'star' : 'star-o'}
                 size={20}
                 style={{color: '#fff', marginRight: 10}}
               />
