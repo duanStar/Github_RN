@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const FLAG_STORAGE = {
   flag_popular: 'popular',
   flag_trending: 'trending',
+  flag_about_me: 'about_me',
 };
 
 export default class DataStore {

@@ -3,9 +3,11 @@ import {StyleSheet, Text, View} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
 
 export default function WelcomePage(props) {
+  const {navigation} = props;
   useEffect(() => {
+    NavigationUtil.navigation = navigation;
     let timer = setTimeout(() => {
-      NavigationUtil.resetToHomePage(props);
+      NavigationUtil.resetToHomePage({navigation});
     }, 2000);
     return () => {
       timer && clearTimeout(timer);
