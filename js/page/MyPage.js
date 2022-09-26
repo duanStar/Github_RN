@@ -52,6 +52,9 @@ export default function MyPage({navigation}) {
           })
           .catch(err => console.error(err));
         break;
+      case MORE_MENU.About_Author:
+        RouteName = 'AboutMe';
+        break;
     }
     if (RouteName) {
       navigation.navigate(RouteName, params);

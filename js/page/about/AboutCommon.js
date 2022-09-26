@@ -11,6 +11,7 @@ import {
   Text,
 } from 'react-native';
 import ViewUtil from '../../util/ViewUtil';
+import configJson from '../../res/data/config.json';
 
 const THEME_COLOR = '#007AFF';
 const AVATAR_SIZE = 90;
@@ -29,28 +30,14 @@ export default class AboutCommon {
     });
   }
   onBackPress() {
-    NavigationUtil.goBack();
+    NavigationUtil.goBack(this.props.navigation);
     return true;
   }
   componentDidMount() {
     this.backPress.componentDidMount();
-    fetch('https://www.devio.org/io/GitHubPopular/json/github_app_config.json')
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error('Network Error');
-      })
-      .then(config => {
-        if (config) {
-          this.updateState({
-            data: config,
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.updateState({
+      data: configJson,
+    });
   }
   componentWillUnmount() {
     this.backPress.componentWillUnmount();

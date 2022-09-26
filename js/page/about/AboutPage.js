@@ -40,6 +40,9 @@ export default function AboutPage({navigation, route}) {
           })
           .catch(err => console.error(err));
         break;
+      case MORE_MENU.About_Author:
+        RouteName = 'AboutMe';
+        break;
     }
     if (RouteName) {
       navigation.navigate(RouteName, params);

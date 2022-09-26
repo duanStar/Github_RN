@@ -6,6 +6,7 @@ import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
 import WebviewPage from '../page/WebviewPage';
 import AboutPage from '../page/about/AboutPage';
+import AboutMePage from "../page/about/AboutMePage";
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,13 @@ export default function AppNavigator() {
         <Stack.Screen
           name="About"
           component={AboutPage}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="AboutMe"
+          component={AboutMePage}
           options={{
             header: () => null,
           }}

@@ -6,11 +6,11 @@
       "items": [
         {
           "title": "React Native基础教程",
-          "url": "https://m.imooc.com/learn/808"
+          "url": "https://www.reactnative.cn/docs/getting-started"
         },
         {
           "title": "React Native高级实战教程",
-          "url": "https://coding.m.imooc.com/classindex.html?cid=304"
+          "url": "https://time.geekbang.org/column/intro/100110101?code=FAqHFVRUur%2FgAP-yJQWitk9ieF80imRky3PVsIs%2FX6A%3D"
         }
       ]
     },
@@ -32,31 +32,27 @@
         },
         {
           "title": "GitHub",
-          "url": "https://github.com/crazycodeboy"
+          "url": "https://github.com/duanStar"
         },
-        {
-          "title": "慕课网",
-          "url": "http://www.imooc.com/u/4951150"
-        }
       ]
     },
     "Contact": {
       "name": "联系方式",
-      "icon": "ios-contacts",
+      "icon": "ios-call",
       "items": {
         "QQ": {
           "title": "QQ",
-          "account": "1586866509"
+          "account": "1715106673"
         },
         "Email": {
           "title": "Email",
-          "account": "crazycodeboy@gmail.com"
+          "account": "1715106673@qq.com"
         }
       }
     },
     "QQ": {
       "name": "技术交流群",
-      "icon": "ios-chatbubbles",
+      "icon": "ios-chatbubble",
       "items": [
         {
           "title": "移动开发者技术分享群",
@@ -75,9 +71,9 @@
     "currentRepoUrl": "https://api.github.com/repos/crazycodeboy/GitHubPopular"
   },
   "author": {
-    "name": "CrazyCodeBoy",
-    "description": "专注于移动开发，分享知识，共享快乐。",
-    "avatar": "http://avatar.csdn.net/1/1/E/1_fengyuzhengfan.jpg",
+    "name": "DuanHongFei",
+    "description": "专注于前端开发，分享知识，共享快乐。",
+    "avatar": "https://avatars.githubusercontent.com/u/63353111?v=4",
     "backgroundImg": "https://www.devio.org/io/GitHubPopular/img/for_githubpopular_about_me.jpg",
     "url": "https://www.devio.org/"
   },
