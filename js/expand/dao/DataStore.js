@@ -46,7 +46,9 @@ export default class DataStore {
           resolve(this._wrapData(data));
         }
       } catch (err) {
-        const data = await this.fetchNetData(url, flag, params);
+        const data = await this.fetchNetData(url, flag, params).catch(err =>
+          console.log(err),
+        );
         resolve(this._wrapData(data));
       }
     });

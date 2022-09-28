@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useDispatch, useSelector} from 'react-redux';
-import {onLoadMoreTrending, onRefreshTrending} from '../action';
+import {onLoadLanguage, onLoadMoreTrending, onRefreshTrending} from '../action';
 import Toast from 'react-native-root-toast';
 import NavigationBar from '../common/NavigationBar';
 import TrendingItem from '../common/TrendingItem';
@@ -20,32 +20,48 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FavoriteDao from '../expand/dao/favoriteDao';
 import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
+import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 
 const Tab = createMaterialTopTabNavigator();
-const TAB_NAMES = ['All', 'Java', 'C', 'C++', 'JavaScript', 'Python'];
 const TRENDING_URL = 'https://trendings.herokuapp.com/repo';
 
-function genTabs() {
+function genTabs(languages) {
   const tabs = {};
-  TAB_NAMES.forEach((item, index) => {
-    tabs[`tab${index}`] = {
-      name: item,
-      children: since => props =>
-        <TrendingTab {...props} tabLabel={item} since={since} />,
-      options: {
-        title: item,
-        tabBarLabel: ({focused}) => {
-          return <Text style={{color: focused ? '#fff' : '#ccc'}}>{item}</Text>;
+  languages.forEach((item, index) => {
+    if (item.checked) {
+      tabs[`tab${index}`] = {
+        name: item.name,
+        children: since => props =>
+          (
+            <TrendingTab
+              {...props}
+              tabLabel={item.name === 'All Language' ? 'All' : item.path}
+              since={since}
+            />
+          ),
+        options: {
+          title: item.name,
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text style={{color: focused ? '#fff' : '#ccc'}}>
+                {item.name}
+              </Text>
+            );
+          },
         },
-      },
-    };
+      };
+    }
   });
   return tabs;
 }
 
 function TopTabNavigator({since}) {
-  const tabs = genTabs();
-  return (
+  const [tabs, setTabs] = useState(null);
+  const language = useSelector(state => state.language);
+  useEffect(() => {
+    language.languages.length > 0 && setTabs(genTabs(language.languages));
+  }, [language.languages]);
+  return language.languages.length > 0 && tabs ? (
     <Tab.Navigator
       screenOptions={{
         tabBarItemStyle: styles.tabBarItemStyle,
@@ -55,6 +71,7 @@ function TopTabNavigator({since}) {
         },
         tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
+        lazy: true,
       }}>
       {Object.values(tabs).map((item, index) => (
         <Tab.Screen name={item.name} options={item.options} key={index}>
@@ -62,7 +79,7 @@ function TopTabNavigator({since}) {
         </Tab.Screen>
       ))}
     </Tab.Navigator>
-  );
+  ) : null;
 }
 
 function TrendingTab({tabLabel, since, navigation}) {
@@ -180,6 +197,10 @@ export default function TrendingPage({navigation}) {
   const [text, setText] = useState('今 天');
   const [since, setSince] = useState('daily');
   const dialogRef = useRef(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(onLoadLanguage(FLAG_LANGUAGE.flag_language));
+  }, []);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>

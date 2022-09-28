@@ -13,6 +13,7 @@ import NavigationBar from '../common/NavigationBar';
 import {MORE_MENU} from '../common/MORE_MENU';
 import GlobalStyles from '../res/GlobalStyles';
 import ViewUtil from '../util/ViewUtil';
+import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 
 const THEME_COLOR = '#007AFF';
 
@@ -54,6 +55,16 @@ export default function MyPage({navigation}) {
         break;
       case MORE_MENU.About_Author:
         RouteName = 'AboutMe';
+        break;
+      case MORE_MENU.Custom_Key:
+      case MORE_MENU.Custom_Language:
+      case MORE_MENU.Remove_Key:
+        RouteName = 'CustomKey';
+        params.isRemoveKey = menu === MORE_MENU.Remove_Key;
+        params.flag =
+          menu === MORE_MENU.Custom_Language
+            ? FLAG_LANGUAGE.flag_language
+            : FLAG_LANGUAGE.flag_key;
         break;
     }
     if (RouteName) {
@@ -97,7 +108,7 @@ export default function MyPage({navigation}) {
         <View style={GlobalStyles.line} />
         {getItem(MORE_MENU.Tutorial)}
         <Text style={styles.groupTitle}>趋势管理</Text>
-        {/*自定义语音*/}
+        {/*自定义语言*/}
         {getItem(MORE_MENU.Custom_Language)}
         <View style={GlobalStyles.line} />
         {/*语音排序*/}
@@ -108,6 +119,9 @@ export default function MyPage({navigation}) {
         <View style={GlobalStyles.line} />
         {/*标签排序*/}
         {getItem(MORE_MENU.Sort_Key)}
+        <View style={GlobalStyles.line} />
+        {/*标签移除*/}
+        {getItem(MORE_MENU.Remove_Key)}
         <Text style={styles.groupTitle}>设置</Text>
         {/*自定义主题*/}
         {getItem(MORE_MENU.Custom_Theme)}

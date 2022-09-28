@@ -6,7 +6,8 @@ import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
 import WebviewPage from '../page/WebviewPage';
 import AboutPage from '../page/about/AboutPage';
-import AboutMePage from "../page/about/AboutMePage";
+import AboutMePage from '../page/about/AboutMePage';
+import CustomKeyPage from '../page/CustomKeyPage';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,13 @@ export default function AppNavigator() {
         <Stack.Screen
           name="AboutMe"
           component={AboutMePage}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="CustomKey"
+          component={CustomKeyPage}
           options={{
             header: () => null,
           }}

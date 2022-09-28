@@ -11,6 +11,17 @@ export default class ViewUtil {
       </TouchableOpacity>
     );
   }
+  static getRightButton(callback, title) {
+    return (
+      <TouchableOpacity
+        style={{alignItems: 'center'}}
+        onPress={() => callback && callback()}>
+        <Text style={{fontSize: 20, color: '#fff', marginRight: 10}}>
+          {title}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
   static getShareButton(callback) {
     return (
       <TouchableOpacity>

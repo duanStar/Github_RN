@@ -19,6 +19,7 @@
     "prop-types": "^15.8.1",
     "react": "18.1.0",
     "react-native": "0.70.1",
+    "react-native-check-box": "^2.1.7",
     "react-native-gesture-handler": "^2.6.1",
     "react-native-pager-view": "^6.0.0",
     "react-native-parallax-scroll-view": "^0.21.3",

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,41 +17,43 @@ import NavigationBar from '../common/NavigationBar';
 import FavoriteDao from '../expand/dao/favoriteDao';
 import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
+import {onLoadLanguage} from '../action';
+import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 
 const Tab = createMaterialTopTabNavigator();
-const TAB_NAMES = [
-  'Java',
-  'C',
-  'C++',
-  'IOS',
-  'Android',
-  'JavaScript',
-  'React',
-  'Vue',
-];
 const BASEURL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
 
-function genTabs() {
+function genTabs(keys = []) {
   const tabs = {};
-  TAB_NAMES.forEach((item, index) => {
-    tabs[`tab${index}`] = {
-      name: item,
-      children: props => <PopularTab {...props} tabLabel={item} />,
-      options: {
-        title: item,
-        tabBarLabel: ({focused}) => {
-          return <Text style={{color: focused ? '#fff' : '#ccc'}}>{item}</Text>;
+  keys.forEach((item, index) => {
+    if (item.checked) {
+      tabs[`tab${index}`] = {
+        name: item.name,
+        children: props => <PopularTab {...props} tabLabel={item.name} />,
+        options: {
+          title: item.name,
+          tabBarLabel: ({focused}) => {
+            return (
+              <Text style={{color: focused ? '#fff' : '#ccc'}}>
+                {item.name}
+              </Text>
+            );
+          },
         },
-      },
-    };
+      };
+    }
   });
   return tabs;
 }
 
 function TopTabNavigator() {
-  const tabs = genTabs();
-  return (
+  const [tabs, setTabs] = useState(null);
+  const language = useSelector(state => state.language);
+  useEffect(() => {
+    language.keys.length > 0 && setTabs(genTabs(language.keys));
+  }, [language.keys]);
+  return language.keys.length > 0 && tabs ? (
     <Tab.Navigator
       screenOptions={{
         tabBarItemStyle: styles.tabBarItemStyle,
@@ -61,6 +63,7 @@ function TopTabNavigator() {
         },
         tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
+        lazy: true,
       }}>
       {Object.values(tabs).map((item, index) => (
         <Tab.Screen name={item.name} options={item.options} key={index}>
@@ -68,7 +71,7 @@ function TopTabNavigator() {
         </Tab.Screen>
       ))}
     </Tab.Navigator>
-  );
+  ) : null;
 }
 
 const genFetchUrl = key => {
@@ -85,6 +88,9 @@ function PopularTab({tabLabel, navigation}) {
       loadData(false);
     });
     return () => _unsubscribe();
+  }, []);
+  useEffect(() => {
+    loadData(false);
   }, []);
   const loadData = loadMore => {
     const url = genFetchUrl(tabLabel);
@@ -174,6 +180,10 @@ function PopularTab({tabLabel, navigation}) {
 }
 
 export default function PopularPage() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(onLoadLanguage(FLAG_LANGUAGE.flag_key));
+  }, []);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
