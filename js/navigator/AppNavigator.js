@@ -8,6 +8,7 @@ import WebviewPage from '../page/WebviewPage';
 import AboutPage from '../page/about/AboutPage';
 import AboutMePage from '../page/about/AboutMePage';
 import CustomKeyPage from '../page/CustomKeyPage';
+import SortKeyPage from "../page/SortKeyPage";
 
 const Stack = createStackNavigator();
 
@@ -60,6 +61,13 @@ export default function AppNavigator() {
         <Stack.Screen
           name="CustomKey"
           component={CustomKeyPage}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="SortKey"
+          component={SortKeyPage}
           options={{
             header: () => null,
           }}

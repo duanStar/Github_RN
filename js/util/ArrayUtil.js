@@ -1,5 +1,5 @@
 export default class ArrayUtil {
-  static isEqual(arr1, arr2) {
+  static isEqual(arr1, arr2, key) {
     if (!(arr1 && arr2)) {
       return false;
     }
@@ -7,7 +7,7 @@ export default class ArrayUtil {
       return false;
     }
     for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) {
+      if ((key && arr1[i][key] !== arr2[i][key]) || arr1[i] !== arr2[i]) {
         return false;
       }
     }
@@ -32,5 +32,23 @@ export default class ArrayUtil {
       }
     }
     return array;
+  }
+  static clone(from) {
+    if (!from) {
+      return [];
+    }
+    const res = [];
+    from?.forEach((item, index) => {
+      res[index] = item;
+    });
+    return res;
+  }
+  static findLastIndex(arr = [], callback) {
+    for (let i = arr.length - 1; i >=0 ; i--) {
+      if (callback(arr[i])) {
+        return i;
+      }
+    }
+    return -1;
   }
 }

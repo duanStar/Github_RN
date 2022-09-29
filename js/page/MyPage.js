@@ -66,6 +66,14 @@ export default function MyPage({navigation}) {
             ? FLAG_LANGUAGE.flag_language
             : FLAG_LANGUAGE.flag_key;
         break;
+      case MORE_MENU.Sort_Key:
+      case MORE_MENU.Sort_Language:
+        RouteName = 'SortKey';
+        params.flag =
+          menu === MORE_MENU.Sort_Key
+            ? FLAG_LANGUAGE.flag_key
+            : FLAG_LANGUAGE.flag_language;
+        break;
     }
     if (RouteName) {
       navigation.navigate(RouteName, params);
