@@ -6,11 +6,11 @@ import {FLAG_STORAGE} from '../../expand/dao/DataStore';
 import configJson from '../../res/data/config.json';
 import ViewUtil from '../../util/ViewUtil';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Toast from "react-native-root-toast";
-
-const THEME_COLOR = '#007AFF';
+import Toast from 'react-native-root-toast';
+import {useSelector} from 'react-redux';
 
 export default function AboutMePage({navigation, route}) {
+  const theme = useSelector(state => state.theme.theme);
   const [config, setConfig] = useState(configJson);
   const [showTutorial, setShowTutorial] = useState(true);
   const [showBlog, setShowBlog] = useState(false);
@@ -21,6 +21,7 @@ export default function AboutMePage({navigation, route}) {
       ...route.params,
       navigation,
       flagAbout: FLAG_STORAGE.flag_about_me,
+      theme,
     },
     ({data}) => setConfig({...data}),
   );
@@ -64,7 +65,11 @@ export default function AboutMePage({navigation, route}) {
           : item.title;
         return (
           <Fragment key={title}>
-            {ViewUtil.getSettingItem(() => onClick(item), title, THEME_COLOR)}
+            {ViewUtil.getSettingItem(
+              () => onClick(item),
+              title,
+              theme.themeColor,
+            )}
             <View style={GlobalStyles.line} />
           </Fragment>
         );
@@ -77,7 +82,7 @@ export default function AboutMePage({navigation, route}) {
     return ViewUtil.getSettingItem(
       () => callback && callback(!isShow),
       data.name,
-      THEME_COLOR,
+      theme.themeColor,
       Ionicons,
       data.icon,
       isShow ? 'ios-arrow-up' : 'ios-arrow-down',

@@ -10,8 +10,6 @@ import CheckBox from 'react-native-check-box';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ArrayUtil from '../util/ArrayUtil';
 
-const THEME_COLOR = '#007AFF';
-
 export default function CustomKeyPage({route, navigation}) {
   const {params} = route;
   const {isRemoveKey, flag} = params;
@@ -24,6 +22,7 @@ export default function CustomKeyPage({route, navigation}) {
   const changeValues = useRef([]);
   const languageDao = new LanguageDao(flag);
   const language = useSelector(state => state.language);
+  const theme = useSelector(state => state.theme.theme);
   const dispatch = useDispatch();
   const [keys, setKeys] = useState([]);
   useEffect(() => {
@@ -115,7 +114,7 @@ export default function CustomKeyPage({route, navigation}) {
       <Ionicons
         name={checked ? 'ios-checkbox' : 'md-square-outline'}
         size={20}
-        style={{color: THEME_COLOR}}
+        style={{color: theme.themeColor}}
       />
     );
   };
@@ -159,7 +158,7 @@ export default function CustomKeyPage({route, navigation}) {
         <NavigationBar
           title={title}
           statusBar={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
           }}
           rightButton={ViewUtil.getRightButton(
@@ -168,7 +167,7 @@ export default function CustomKeyPage({route, navigation}) {
           )}
           leftButton={ViewUtil.getLeftBackButton(onBack)}
           style={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
           }}
         />
         <ScrollView>{renderView()}</ScrollView>

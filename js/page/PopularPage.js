@@ -50,6 +50,7 @@ function genTabs(keys = []) {
 function TopTabNavigator() {
   const [tabs, setTabs] = useState(null);
   const language = useSelector(state => state.language);
+  const theme = useSelector(state => state.theme.theme);
   useEffect(() => {
     language.keys.length > 0 && setTabs(genTabs(language.keys));
   }, [language.keys]);
@@ -59,7 +60,7 @@ function TopTabNavigator() {
         tabBarItemStyle: styles.tabBarItemStyle,
         tabBarScrollEnabled: true,
         tabBarStyle: {
-          backgroundColor: '#007AFF',
+          backgroundColor: theme.themeColor,
         },
         tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
@@ -81,6 +82,7 @@ const genFetchUrl = key => {
 function PopularTab({tabLabel, navigation}) {
   const canLoad = useRef(false);
   const dataObject = useSelector(state => state.popular)[tabLabel];
+  const theme = useSelector(state => state.theme.theme);
   const dispatch = useDispatch();
   const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
   useEffect(() => {
@@ -154,11 +156,11 @@ function PopularTab({tabLabel, navigation}) {
         refreshControl={
           <RefreshControl
             title={'loading'}
-            titleColor={'#007AFF'}
-            colors={['#007AFF']}
+            titleColor={theme.themeColor}
+            colors={[theme.themeColor]}
             refreshing={dataObject?.isLoading || false}
             onRefresh={() => loadData()}
-            tintColor={'#007AFF'}
+            tintColor={theme.themeColor}
           />
         }
         ListFooterComponent={() => genFooter()}
@@ -181,6 +183,7 @@ function PopularTab({tabLabel, navigation}) {
 
 export default function PopularPage() {
   const dispatch = useDispatch();
+  const theme = useSelector(state => state.theme.theme);
   useEffect(() => {
     dispatch(onLoadLanguage(FLAG_LANGUAGE.flag_key));
   }, []);
@@ -190,11 +193,11 @@ export default function PopularPage() {
         <NavigationBar
           title={'最热'}
           statusBar={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
           }}
           style={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
           }}
         />
         <TopTabNavigator />

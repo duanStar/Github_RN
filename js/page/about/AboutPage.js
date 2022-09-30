@@ -6,16 +6,17 @@ import {FLAG_STORAGE} from '../../expand/dao/DataStore';
 import configJson from '../../res/data/config.json';
 import ViewUtil from '../../util/ViewUtil';
 import {MORE_MENU} from '../../common/MORE_MENU';
-
-const THEME_COLOR = '#007AFF';
+import {useSelector} from 'react-redux';
 
 export default function AboutPage({navigation, route}) {
+  const theme = useSelector(state => state.theme.theme);
   const [config, setConfig] = useState(configJson);
   const aboutCommon = new AboutCommon(
     {
       ...route.params,
       navigation,
       flagAbout: FLAG_STORAGE.flag_about_me,
+      theme,
     },
     ({data}) => setConfig({...data}),
   );
@@ -49,7 +50,7 @@ export default function AboutPage({navigation, route}) {
     }
   };
   const getItem = menu => {
-    return ViewUtil.getMenuItem(() => onClick(menu), menu, THEME_COLOR);
+    return ViewUtil.getMenuItem(() => onClick(menu), menu, theme.themeColor);
   };
   const content = (
     <View>

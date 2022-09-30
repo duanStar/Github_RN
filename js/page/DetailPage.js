@@ -7,11 +7,12 @@ import {WebView} from 'react-native-webview';
 import BackPressComponent from '../common/BackPressComponent';
 import FavoriteUtil from '../util/FavoriteUtil';
 import FavoriteDao from '../expand/dao/favoriteDao';
+import {useSelector} from 'react-redux';
 
 const TRENDING_URL = 'https://github.com/';
-const THEME_COLOR = '#007AFF';
 
 export default function DetailPage({navigation, route}) {
+  const theme = useSelector(state => state.theme.theme);
   const {projectModel, flag} = route.params;
   const {item} = projectModel;
   const favoriteDao = new FavoriteDao(flag);
@@ -75,11 +76,11 @@ export default function DetailPage({navigation, route}) {
           </View>
         }
         statusBar={{
-          backgroundColor: THEME_COLOR,
+          backgroundColor: theme.themeColor,
           barStyle: 'light-content',
         }}
         style={{
-          backgroundColor: THEME_COLOR,
+          backgroundColor: theme.themeColor,
         }}
       />
       {url && (

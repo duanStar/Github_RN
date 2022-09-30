@@ -14,10 +14,12 @@ import {MORE_MENU} from '../common/MORE_MENU';
 import GlobalStyles from '../res/GlobalStyles';
 import ViewUtil from '../util/ViewUtil';
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
-
-const THEME_COLOR = '#007AFF';
+import {useDispatch, useSelector} from 'react-redux';
+import {onShowCustomThemeView} from '../action';
 
 export default function MyPage({navigation}) {
+  const dispatch = useDispatch();
+  const theme = useSelector(state => state.theme.theme);
   const getRightButton = callback => {
     return (
       <View style={{flexDirection: 'row'}}>
@@ -74,25 +76,28 @@ export default function MyPage({navigation}) {
             ? FLAG_LANGUAGE.flag_key
             : FLAG_LANGUAGE.flag_language;
         break;
+      case MORE_MENU.Custom_Theme:
+        dispatch(onShowCustomThemeView(true));
+        break;
     }
     if (RouteName) {
       navigation.navigate(RouteName, params);
     }
   };
   const getItem = menu => {
-    return ViewUtil.getMenuItem(() => onClick(menu), menu, THEME_COLOR);
+    return ViewUtil.getMenuItem(() => onClick(menu), menu, theme.themeColor);
   };
   return (
     <View style={GlobalStyles.rootContainer}>
       <NavigationBar
         title={'我的'}
         statusBar={{
-          backgroundColor: THEME_COLOR,
+          backgroundColor: theme.themeColor,
           barStyle: 'light-content',
         }}
         rightButton={getRightButton()}
         style={{
-          backgroundColor: THEME_COLOR,
+          backgroundColor: theme.themeColor,
         }}
       />
       <ScrollView horizontal={false}>
@@ -103,14 +108,18 @@ export default function MyPage({navigation}) {
             <Ionicons
               name={MORE_MENU.About.icon}
               size={40}
-              style={{marginRight: 10, color: THEME_COLOR}}
+              style={{marginRight: 10, color: theme.themeColor}}
             />
             <Text>Github Popular</Text>
           </View>
           <Ionicons
             name={'ios-arrow-forward'}
             size={16}
-            style={{marginRight: 10, alignSelf: 'center', color: THEME_COLOR}}
+            style={{
+              marginRight: 10,
+              alignSelf: 'center',
+              color: theme.themeColor,
+            }}
           />
         </TouchableOpacity>
         <View style={GlobalStyles.line} />

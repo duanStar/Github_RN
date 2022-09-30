@@ -58,6 +58,7 @@ function genTabs(languages) {
 function TopTabNavigator({since}) {
   const [tabs, setTabs] = useState(null);
   const language = useSelector(state => state.language);
+  const theme = useSelector(state => state.theme.theme);
   useEffect(() => {
     language.languages.length > 0 && setTabs(genTabs(language.languages));
   }, [language.languages]);
@@ -67,7 +68,7 @@ function TopTabNavigator({since}) {
         tabBarItemStyle: styles.tabBarItemStyle,
         tabBarScrollEnabled: true,
         tabBarStyle: {
-          backgroundColor: '#007AFF',
+          backgroundColor: theme.themeColor,
         },
         tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
@@ -85,6 +86,7 @@ function TopTabNavigator({since}) {
 function TrendingTab({tabLabel, since, navigation}) {
   const canLoad = useRef(false);
   const dataObject = useSelector(state => state.trending)[tabLabel];
+  const theme = useSelector(state => state.theme.theme);
   const dispatch = useDispatch();
   const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
   useEffect(() => {
@@ -168,11 +170,11 @@ function TrendingTab({tabLabel, since, navigation}) {
         refreshControl={
           <RefreshControl
             title={'loading'}
-            titleColor={'#007AFF'}
-            colors={['#007AFF']}
+            titleColor={theme.themeColor}
+            colors={[theme.themeColor]}
             refreshing={dataObject?.isLoading || false}
             onRefresh={() => loadData(false)}
-            tintColor={'#007AFF'}
+            tintColor={theme.themeColor}
           />
         }
         ListFooterComponent={() => genFooter()}
@@ -198,6 +200,7 @@ export default function TrendingPage({navigation}) {
   const [since, setSince] = useState('daily');
   const dialogRef = useRef(null);
   const dispatch = useDispatch();
+  const theme = useSelector(state => state.theme.theme);
   useEffect(() => {
     dispatch(onLoadLanguage(FLAG_LANGUAGE.flag_language));
   }, []);
@@ -225,11 +228,11 @@ export default function TrendingPage({navigation}) {
             </TouchableOpacity>
           }
           statusBar={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
           }}
           style={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
           }}
         />
         <TopTabNavigator since={since} />

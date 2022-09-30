@@ -4,11 +4,10 @@ import NavigationBar from '../common/NavigationBar';
 import ViewUtil from '../util/ViewUtil';
 import {WebView} from 'react-native-webview';
 import BackPressComponent from '../common/BackPressComponent';
-import FavoriteDao from '../expand/dao/favoriteDao';
-
-const THEME_COLOR = '#007AFF';
+import {useSelector} from 'react-redux';
 
 export default function WebviewPage({navigation, route}) {
+  const theme = useSelector(state => state.theme.theme);
   const [title, setTitle] = useState(route.params.title);
   const [url, setUrl] = useState(route.params.url);
   const urls = useRef([route.params.url]);
@@ -42,11 +41,11 @@ export default function WebviewPage({navigation, route}) {
           onBack();
         })}
         statusBar={{
-          backgroundColor: THEME_COLOR,
+          backgroundColor: theme.themeColor,
           barStyle: 'light-content',
         }}
         style={{
-          backgroundColor: THEME_COLOR,
+          backgroundColor: theme.themeColor,
         }}
       />
       {url && (

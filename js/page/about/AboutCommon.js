@@ -13,7 +13,6 @@ import {
 import ViewUtil from '../../util/ViewUtil';
 import configJson from '../../res/data/config.json';
 
-const THEME_COLOR = '#007AFF';
 const AVATAR_SIZE = 90;
 const PARALLAX_HEADER_HEIGHT = 270;
 const STICKY_HEADER_HEIGHT =
@@ -99,7 +98,7 @@ export default class AboutCommon {
   render(contentView, params) {
     return (
       <ParallaxScrollView
-        backgroundColor={THEME_COLOR}
+        backgroundColor={this.props.theme.themeColor}
         contentBackgroundColor={GlobalStyles.backgroundColor}
         parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
         stickyHeaderHeight={STICKY_HEADER_HEIGHT}

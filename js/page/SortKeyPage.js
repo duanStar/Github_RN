@@ -4,8 +4,9 @@ import {
   View,
   SafeAreaView,
   Text,
-  TouchableHighlight, Alert,
-} from "react-native";
+  TouchableHighlight,
+  Alert,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import NavigationBar from '../common/NavigationBar';
 import {onLoadLanguage} from '../action';
@@ -15,8 +16,6 @@ import ViewUtil from '../util/ViewUtil';
 import ArrayUtil from '../util/ArrayUtil';
 import SortableListView from 'react-native-sortable-listview';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-const THEME_COLOR = '#007AFF';
 
 export default function SortKeyPage({route, navigation}) {
   const {params} = route;
@@ -29,6 +28,7 @@ export default function SortKeyPage({route, navigation}) {
   const sortedArray = useRef([]);
   const languageDao = new LanguageDao(flag);
   const language = useSelector(state => state.language);
+  const theme = useSelector(state => state.theme.theme);
   const dispatch = useDispatch();
   useEffect(() => {
     backPress.componentDidMount();
@@ -97,13 +97,13 @@ export default function SortKeyPage({route, navigation}) {
         <NavigationBar
           title={title}
           statusBar={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
           }}
           rightButton={ViewUtil.getRightButton(() => onSave(true), '保存')}
           leftButton={ViewUtil.getLeftBackButton(onBack)}
           style={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
           }}
         />
         <SortableListView
@@ -125,6 +125,7 @@ export default function SortKeyPage({route, navigation}) {
 }
 
 function SortCell({data, sortHandlers}) {
+  const theme = useSelector(state => state.theme.theme);
   const {checked, name} = data;
   return (
     <TouchableHighlight
@@ -135,7 +136,7 @@ function SortCell({data, sortHandlers}) {
         <MaterialCommunityIcons
           name={'sort'}
           size={16}
-          style={{marginRight: 10, color: THEME_COLOR}}
+          style={{marginRight: 10, color: theme.themeColor}}
         />
         <Text>{name}</Text>
       </View>

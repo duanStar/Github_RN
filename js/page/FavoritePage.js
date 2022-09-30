@@ -45,13 +45,14 @@ function genTabs() {
 }
 
 function TopTabNavigator() {
+  const theme = useSelector(state => state.theme.theme);
   const tabs = genTabs();
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarScrollEnabled: false,
         tabBarStyle: {
-          backgroundColor: '#007AFF',
+          backgroundColor: theme.themeColor,
         },
         tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
@@ -67,6 +68,7 @@ function TopTabNavigator() {
 
 function FavoriteTab({navigation, flag}) {
   const dataObject = useSelector(state => state.favorite)[flag];
+  const theme = useSelector(state => state.theme.theme);
   const dispatch = useDispatch();
   const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
   useEffect(() => {
@@ -134,11 +136,11 @@ function FavoriteTab({navigation, flag}) {
         refreshControl={
           <RefreshControl
             title={'loading'}
-            titleColor={'#007AFF'}
-            colors={['#007AFF']}
+            titleColor={theme.themeColor}
+            colors={[theme.themeColor]}
             refreshing={dataObject?.isLoading || false}
             onRefresh={() => loadData()}
-            tintColor={'#007AFF'}
+            tintColor={theme.themeColor}
           />
         }
       />
@@ -147,17 +149,18 @@ function FavoriteTab({navigation, flag}) {
 }
 
 export default function FavoritePage() {
+  const theme = useSelector(state => state.theme.theme);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <NavigationBar
           title={'收藏'}
           statusBar={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content',
           }}
           style={{
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.themeColor,
           }}
         />
         <TopTabNavigator />

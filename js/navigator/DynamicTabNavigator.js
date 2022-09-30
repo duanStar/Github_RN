@@ -10,7 +10,7 @@ import {
   createBottomTabNavigator,
   BottomTabBar,
 } from '@react-navigation/bottom-tabs';
-import { useSelector } from "react-redux";
+import {useSelector} from 'react-redux';
 
 const TABS = {
   PopularPage: {
@@ -65,7 +65,7 @@ function TabNavigator(props) {
     <Tab.Navigator
       screenOptions={{
         header: () => null,
-        tabBarActiveTintColor: theme,
+        tabBarActiveTintColor: theme.themeColor,
       }}>
       {tabs.map((tab, index) => (
         <Tab.Screen
