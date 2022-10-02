@@ -21,6 +21,7 @@ import FavoriteDao from '../expand/dao/favoriteDao';
 import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
+import ViewUtil from "../util/ViewUtil";
 
 const Tab = createMaterialTopTabNavigator();
 const TRENDING_URL = 'https://trendings.herokuapp.com/repo';
@@ -234,6 +235,9 @@ export default function TrendingPage({navigation}) {
           style={{
             backgroundColor: theme.themeColor,
           }}
+          rightButton={ViewUtil.getSearchButton(() => {
+            navigation.navigate('Search');
+          })}
         />
         <TopTabNavigator since={since} />
         <TrendingDialog

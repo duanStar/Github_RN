@@ -20,17 +20,6 @@ import {onShowCustomThemeView} from '../action';
 export default function MyPage({navigation}) {
   const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.theme);
-  const getRightButton = callback => {
-    return (
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity onPress={() => callback && callback()}>
-          <View style={{padding: 5, marginRight: 8}}>
-            <Feather name={'search'} size={24} style={{color: '#fff'}} />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
   const onClick = menu => {
     let RouteName,
       params = {};
@@ -95,7 +84,9 @@ export default function MyPage({navigation}) {
           backgroundColor: theme.themeColor,
           barStyle: 'light-content',
         }}
-        rightButton={getRightButton()}
+        rightButton={ViewUtil.getSearchButton(() => {
+          navigation.navigate('Search');
+        })}
         style={{
           backgroundColor: theme.themeColor,
         }}

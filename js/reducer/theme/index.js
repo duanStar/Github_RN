@@ -1,7 +1,7 @@
 import Types from '../../action/types';
-import {ThemeFlags} from '../../res/styles/ThemeFactory';
+import ThemeFactory, {ThemeFlags} from '../../res/styles/ThemeFactory';
 const defaultState = {
-  theme: ThemeFlags.Default,
+  theme: ThemeFactory.createTheme(ThemeFlags.Default),
   showCustomThemeView: false,
 };
 

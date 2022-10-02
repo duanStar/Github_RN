@@ -24,7 +24,7 @@ export default class TrendingItem extends BaseItem {
           <RenderHtml
             contentWidth={width}
             source={{
-              html: item.desc,
+              html: item.desc || '<span></span>',
             }}
           />
           <View style={styles.row}>

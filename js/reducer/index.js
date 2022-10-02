@@ -4,6 +4,7 @@ import popular from './popular';
 import trending from './trending';
 import favorite from './favorite';
 import language from './language';
+import search from './search';
 
 const index = combineReducers({
   theme,
@@ -11,6 +12,7 @@ const index = combineReducers({
   trending,
   favorite,
   language,
+  search,
 });
 
 export default index;

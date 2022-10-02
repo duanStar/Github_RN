@@ -8,6 +8,7 @@ export function handleData(
   data,
   pageSize,
   favoriteDao,
+  params,
 ) {
   let fixItems = [];
   if (data && data.data) {
@@ -26,6 +27,7 @@ export function handleData(
       storeName,
       pageIndex: 2,
       items: fixItems,
+      ...params,
     });
   });
 }

@@ -79,8 +79,9 @@ export default function CustomKeyPage({route, navigation}) {
     }
     let newKeys;
     if (isRemoveKey) {
+      newKeys = _keys(true);
       changeValues.current?.forEach(item => {
-        ArrayUtil.removeItem((newKeys = _keys(true)), item, 'name');
+        ArrayUtil.removeItem(newKeys, item, 'name');
       });
     }
     languageDao.save(newKeys || keys);

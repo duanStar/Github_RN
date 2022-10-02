@@ -3,6 +3,7 @@ import {onRefreshPopularData, onLoadMorePopular} from './popular';
 import {onLoadMoreTrending, onRefreshTrending} from './trending';
 import {onLoadFavoriteData} from './favorite';
 import {onLoadLanguage} from './language';
+import {onSearch, onSearchCancel, onSearchMore} from './search';
 
 export {
   onThemeChange,
@@ -14,4 +15,7 @@ export {
   onLoadLanguage,
   onThemeInit,
   onShowCustomThemeView,
+  onSearchCancel,
+  onSearchMore,
+  onSearch,
 };

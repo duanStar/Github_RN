@@ -19,6 +19,7 @@ import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
 import {onLoadLanguage} from '../action';
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
+import ViewUtil from "../util/ViewUtil";
 
 const Tab = createMaterialTopTabNavigator();
 const BASEURL = 'https://api.github.com/search/repositories?q=';
@@ -181,7 +182,7 @@ function PopularTab({tabLabel, navigation}) {
   );
 }
 
-export default function PopularPage() {
+export default function PopularPage({navigation}) {
   const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.theme);
   useEffect(() => {
@@ -199,6 +200,9 @@ export default function PopularPage() {
           style={{
             backgroundColor: theme.themeColor,
           }}
+          rightButton={ViewUtil.getSearchButton(() => {
+            navigation.navigate('Search');
+          })}
         />
         <TopTabNavigator />
       </View>

@@ -1,5 +1,7 @@
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import React from 'react';
 
 export default class ViewUtil {
   static getLeftBackButton(callback) {
@@ -9,6 +11,17 @@ export default class ViewUtil {
         onPress={() => callback && callback()}>
         <Ionicons name={'ios-arrow-back'} size={26} style={{color: '#fff'}} />
       </TouchableOpacity>
+    );
+  }
+  static getSearchButton(callback) {
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity onPress={() => callback && callback()}>
+          <View style={{padding: 5, marginRight: 8}}>
+            <Feather name={'search'} size={24} style={{color: '#fff'}} />
+          </View>
+        </TouchableOpacity>
+      </View>
     );
   }
   static getRightButton(callback, title) {

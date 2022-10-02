@@ -24,7 +24,7 @@ export default class PopularItem extends BaseItem {
           <RenderHtml
             contentWidth={width}
             source={{
-              html: item.description,
+              html: item.description || '<span></span>',
             }}
           />
           <View style={styles.row}>

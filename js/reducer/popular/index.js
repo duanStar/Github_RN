@@ -1,6 +1,6 @@
 import Types from '../../action/types';
 
-export default function onAction(state = {}, action) {
+export default function onAction(state = {hideLoadingMore: true}, action) {
   switch (action.type) {
     case Types.POPULAR_REFRESH_SUCCESS:
       return {
