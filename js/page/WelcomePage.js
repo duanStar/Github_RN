@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {useDispatch} from 'react-redux';
 import {onThemeInit} from '../action';
+import SplashScreen from 'react-native-splash-screen';
 
 export default function WelcomePage(props) {
   const {navigation} = props;
@@ -13,23 +13,12 @@ export default function WelcomePage(props) {
   useEffect(() => {
     NavigationUtil.navigation = navigation;
     let timer = setTimeout(() => {
+      SplashScreen.hide();
       NavigationUtil.resetToHomePage({navigation});
-    }, 2000);
+    }, 200);
     return () => {
       timer && clearTimeout(timer);
     };
   }, []);
-  return (
-    <View style={styles.container}>
-      <Text>WelcomePage</Text>
-    </View>
-  );
+  return null;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

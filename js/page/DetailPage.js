@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import NavigationBar from '../common/NavigationBar';
 import ViewUtil from '../util/ViewUtil';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -8,6 +8,7 @@ import BackPressComponent from '../common/BackPressComponent';
 import FavoriteUtil from '../util/FavoriteUtil';
 import FavoriteDao from '../expand/dao/favoriteDao';
 import {useSelector} from 'react-redux';
+import SafeAreaViewPlus from '../common/SafeAreaViewPlus';
 
 const TRENDING_URL = 'https://github.com/';
 
@@ -50,7 +51,7 @@ export default function DetailPage({navigation, route}) {
     setTitle(item.full_name || item.repo);
   }, [route.params]);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaViewPlus topColor={theme.themeColor} style={styles.container}>
       <NavigationBar
         title={title}
         titleLayoutStyle={{
@@ -94,7 +95,7 @@ export default function DetailPage({navigation, route}) {
           source={{uri: url}}
         />
       )}
-    </SafeAreaView>
+    </SafeAreaViewPlus>
   );
 }
 

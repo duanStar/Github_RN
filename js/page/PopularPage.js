@@ -19,7 +19,7 @@ import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
 import {onLoadLanguage} from '../action';
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
-import ViewUtil from "../util/ViewUtil";
+import ViewUtil from '../util/ViewUtil';
 
 const Tab = createMaterialTopTabNavigator();
 const BASEURL = 'https://api.github.com/search/repositories?q=';
@@ -189,24 +189,22 @@ export default function PopularPage({navigation}) {
     dispatch(onLoadLanguage(FLAG_LANGUAGE.flag_key));
   }, []);
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
-        <NavigationBar
-          title={'最热'}
-          statusBar={{
-            backgroundColor: theme.themeColor,
-            barStyle: 'light-content',
-          }}
-          style={{
-            backgroundColor: theme.themeColor,
-          }}
-          rightButton={ViewUtil.getSearchButton(() => {
-            navigation.navigate('Search');
-          })}
-        />
-        <TopTabNavigator />
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <NavigationBar
+        title={'最热'}
+        statusBar={{
+          backgroundColor: theme.themeColor,
+          barStyle: 'light-content',
+        }}
+        style={{
+          backgroundColor: theme.themeColor,
+        }}
+        rightButton={ViewUtil.getSearchButton(() => {
+          navigation.navigate('Search');
+        })}
+      />
+      <TopTabNavigator />
+    </View>
   );
 }
 

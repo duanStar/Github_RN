@@ -1,13 +1,15 @@
 import React from 'react';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
-import {View} from 'react-native';
 import CustomTheme from './CustomTheme';
+import SafeAreaViewPlus from '../common/SafeAreaViewPlus';
+import {useSelector} from 'react-redux';
 
 export default function HomePage() {
+  const theme = useSelector(state => state.theme.theme);
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaViewPlus style={{flex: 1}} topColor={theme.themeColor}>
       <DynamicTabNavigator />
       <CustomTheme />
-    </View>
+    </SafeAreaViewPlus>
   );
 }

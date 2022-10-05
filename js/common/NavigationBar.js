@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import {StatusBar, Text, View, StyleSheet, Platform} from 'react-native';
+import Utils from '../util/Utils';
 
 const StatusBarShape = {
   barStyle: PropTypes.oneOf(['light-content', 'default']),
@@ -9,7 +10,7 @@ const StatusBarShape = {
 
 const NAV_BAR_HEIGHT_IOS = 44;
 const NAV_BAR_HEIGHT_ANDROID = 50;
-const STATUS_BAR_HEIGHT = 20;
+const STATUS_BAR_HEIGHT = Utils.isIPhoneX() ? 0 : 20;
 
 function NavigationBar(props) {
   const {barStyle = 'light-content', hidden = false} = props.statusBar;

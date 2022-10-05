@@ -12,12 +12,14 @@ import {
 } from 'react-native';
 import ViewUtil from '../../util/ViewUtil';
 import configJson from '../../res/data/config.json';
+import Utils from '../../util/Utils';
 
 const AVATAR_SIZE = 90;
 const PARALLAX_HEADER_HEIGHT = 270;
+const TOP = Platform.OS === 'ios' ? (20 + Utils.isIPhoneX() ? 24 : 0) : 0;
 const STICKY_HEADER_HEIGHT =
   Platform.OS === 'ios'
-    ? GlobalStyles.navBarHeightIOS + 20
+    ? GlobalStyles.navBarHeightIOS + TOP
     : GlobalStyles.navBarHeightAndroid;
 
 export default class AboutCommon {
@@ -139,6 +141,7 @@ const styles = StyleSheet.create({
     height: STICKY_HEADER_HEIGHT,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   stickySectionText: {
     color: 'white',
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: Platform.OS === 'ios' ? 20 : 0,
+    paddingTop: Platform.OS === 'ios' ? TOP : 0,
     paddingRight: 8,
   },
 });

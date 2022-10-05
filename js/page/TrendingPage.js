@@ -21,7 +21,7 @@ import FavoriteDao from '../expand/dao/favoriteDao';
 import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
-import ViewUtil from "../util/ViewUtil";
+import ViewUtil from '../util/ViewUtil';
 
 const Tab = createMaterialTopTabNavigator();
 const TRENDING_URL = 'https://trendings.herokuapp.com/repo';
@@ -206,49 +206,47 @@ export default function TrendingPage({navigation}) {
     dispatch(onLoadLanguage(FLAG_LANGUAGE.flag_language));
   }, []);
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
-        <NavigationBar
-          titleView={
-            <TouchableOpacity onPress={() => dialogRef.current?.show()}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: '#fff',
-                    fontWeight: '400',
-                  }}>
-                  趋势 {text}
-                </Text>
-                <MaterialIcons
-                  name={'arrow-drop-down'}
-                  size={22}
-                  style={{color: '#fff'}}
-                />
-              </View>
-            </TouchableOpacity>
-          }
-          statusBar={{
-            backgroundColor: theme.themeColor,
-            barStyle: 'light-content',
-          }}
-          style={{
-            backgroundColor: theme.themeColor,
-          }}
-          rightButton={ViewUtil.getSearchButton(() => {
-            navigation.navigate('Search');
-          })}
-        />
-        <TopTabNavigator since={since} />
-        <TrendingDialog
-          ref={dialogRef}
-          onSelect={time => {
-            setText(time.showText);
-            setSince(time.searchText);
-          }}
-        />
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <NavigationBar
+        titleView={
+          <TouchableOpacity onPress={() => dialogRef.current?.show()}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: '#fff',
+                  fontWeight: '400',
+                }}>
+                趋势 {text}
+              </Text>
+              <MaterialIcons
+                name={'arrow-drop-down'}
+                size={22}
+                style={{color: '#fff'}}
+              />
+            </View>
+          </TouchableOpacity>
+        }
+        statusBar={{
+          backgroundColor: theme.themeColor,
+          barStyle: 'light-content',
+        }}
+        style={{
+          backgroundColor: theme.themeColor,
+        }}
+        rightButton={ViewUtil.getSearchButton(() => {
+          navigation.navigate('Search');
+        })}
+      />
+      <TopTabNavigator since={since} />
+      <TrendingDialog
+        ref={dialogRef}
+        onSelect={time => {
+          setText(time.showText);
+          setSince(time.searchText);
+        }}
+      />
+    </View>
   );
 }
 

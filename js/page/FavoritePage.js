@@ -16,7 +16,7 @@ import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
 import {onLoadFavoriteData} from '../action';
 import TrendingItem from '../common/TrendingItem';
-import ViewUtil from "../util/ViewUtil";
+import ViewUtil from '../util/ViewUtil';
 
 const Tab = createMaterialTopTabNavigator();
 const TAB_NAMES = [
@@ -152,24 +152,22 @@ function FavoriteTab({navigation, flag}) {
 export default function FavoritePage({navigation}) {
   const theme = useSelector(state => state.theme.theme);
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
-        <NavigationBar
-          title={'收藏'}
-          statusBar={{
-            backgroundColor: theme.themeColor,
-            barStyle: 'light-content',
-          }}
-          style={{
-            backgroundColor: theme.themeColor,
-          }}
-          rightButton={ViewUtil.getSearchButton(() => {
-            navigation.navigate('Search');
-          })}
-        />
-        <TopTabNavigator />
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <NavigationBar
+        title={'收藏'}
+        statusBar={{
+          backgroundColor: theme.themeColor,
+          barStyle: 'light-content',
+        }}
+        style={{
+          backgroundColor: theme.themeColor,
+        }}
+        rightButton={ViewUtil.getSearchButton(() => {
+          navigation.navigate('Search');
+        })}
+      />
+      <TopTabNavigator />
+    </View>
   );
 }
 
