@@ -15,7 +15,7 @@ export default function WelcomePage(props) {
     let timer = setTimeout(() => {
       SplashScreen.hide();
       NavigationUtil.resetToHomePage({navigation});
-    }, 200);
+    }, 20);
     return () => {
       timer && clearTimeout(timer);
     };

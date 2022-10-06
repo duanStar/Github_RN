@@ -10,6 +10,7 @@ import AboutMePage from '../page/about/AboutMePage';
 import CustomKeyPage from '../page/CustomKeyPage';
 import SortKeyPage from '../page/SortKeyPage';
 import SearchPage from '../page/SearchPage';
+import CodePushPage from "../page/CodePushPage";
 
 const Stack = createStackNavigator();
 
@@ -76,6 +77,13 @@ export default function AppNavigator() {
         <Stack.Screen
           name="Search"
           component={SearchPage}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="CodePush"
+          component={CodePushPage}
           options={{
             header: () => null,
           }}

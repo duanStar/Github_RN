@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NavigationBar from '../common/NavigationBar';
 import {MORE_MENU} from '../common/MORE_MENU';
@@ -67,6 +66,9 @@ export default function MyPage({navigation}) {
         break;
       case MORE_MENU.Custom_Theme:
         dispatch(onShowCustomThemeView(true));
+        break;
+      case MORE_MENU.CodePush:
+        RouteName = 'CodePush';
         break;
     }
     if (RouteName) {
@@ -139,6 +141,8 @@ export default function MyPage({navigation}) {
         <View style={GlobalStyles.line} />
         {/*反馈*/}
         {getItem(MORE_MENU.Feedback)}
+        <View style={GlobalStyles.line} />
+        {getItem(MORE_MENU.CodePush)}
       </ScrollView>
     </View>
   );

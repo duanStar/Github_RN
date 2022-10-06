@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Github_RN</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">5azuMw6SfwB5IX9ArFyBGJqkd5OIn2Vp3dRVB</string>
 </resources>

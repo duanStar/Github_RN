@@ -59,4 +59,9 @@ export const MORE_MENU = {
     Icons: Ionicons,
     icon: 'md-share',
   },
+  CodePush: {
+    name: 'CodePush',
+    Icons: Ionicons,
+    icon: 'ios-planet',
+  },
 };

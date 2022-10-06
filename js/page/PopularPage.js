@@ -6,7 +6,6 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  SafeAreaView,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useDispatch, useSelector} from 'react-redux';
@@ -20,6 +19,7 @@ import FavoriteUtil from '../util/FavoriteUtil';
 import {onLoadLanguage} from '../action';
 import {FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 import ViewUtil from '../util/ViewUtil';
+import Analytics from 'appcenter-analytics';
 
 const Tab = createMaterialTopTabNavigator();
 const BASEURL = 'https://api.github.com/search/repositories?q=';
@@ -200,7 +200,9 @@ export default function PopularPage({navigation}) {
           backgroundColor: theme.themeColor,
         }}
         rightButton={ViewUtil.getSearchButton(() => {
-          navigation.navigate('Search');
+          Analytics.trackEvent('onSearch').then(() => {
+            navigation.navigate('Search');
+          });
         })}
       />
       <TopTabNavigator />
