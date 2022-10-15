@@ -9,3 +9,4 @@
 ## 问题
 1. Invariant Violation: ViewPropTypes has been removed from React Native 
    > 参考 https://akashmittal.com/code-example-viewproptypes-has-been-removed-from-react-native/
+2. 由于设备原因目前仅完成了安卓端
